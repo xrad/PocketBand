@@ -1,0 +1,78 @@
+
+CREATE TABLE patch(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE module(
+    id INTEGER PRIMARY KEY,
+    patch_id INTEGER NOT NULL,
+    position INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    FOREIGN KEY (patch_id) REFERENCES patch (id) ON DELETE CASCADE
+);
+
+CREATE TABLE parameter(
+    id INTEGER NOT NULL,
+    module_id INTEGER NOT NULL,
+    key TEXT NOT NULL,
+    value TEXT NOT NULL,
+    FOREIGN KEY (module_id) REFERENCES module (id) ON DELETE CASCADE,
+    PRIMARY KEY (id, module_id)
+);
+
+CREATE TABLE modulation(
+    id INTEGER NOT NULL,
+    patch_id INTEGER NOT NULL,
+    source_module_id INTEGER NOT NULL,
+    source_parameter_key TEXT NOT NULL,
+    target_module_id INTEGER NOT NULL,
+    target_parameter_key TEXT NOT NULL,
+    amount TEXT NOT NULL,
+    FOREIGN KEY (patch_id) REFERENCES patch (id) ON DELETE CASCADE,
+    PRIMARY KEY (id, patch_id)
+    );
+
+countPresets:
+SELECT COUNT(id) FROM patch;
+
+selectMaxModuleId:
+SELECT MAX(id) FROM module;
+
+selectAllPatches:
+SELECT * FROM patch;
+
+selectPatch:
+SELECT * FROM patch WHERE id = ?;
+
+selectModule:
+SELECT * FROM module WHERE patch_id = ?;
+
+selectParameter:
+SELECT * FROM parameter WHERE module_id = ?;
+
+selectModulation:
+SELECT * FROM modulation WHERE patch_id = ?;
+
+deletePatch:
+DELETE FROM patch WHERE id = ?;
+
+insertPatch:
+INSERT INTO patch(id, name)
+VALUES (?, ?);
+
+getModuleEntities:
+SELECT * FROM module WHERE patch_id = ? ORDER BY position ASC;
+
+insertModule:
+INSERT INTO module(id, patch_id, position, type)
+VALUES (?, ?, ?, ?);
+
+insertModulation:
+INSERT INTO modulation(id, patch_id, source_module_id, source_parameter_key,
+    target_module_id, target_parameter_key, amount)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertParameter:
+INSERT INTO parameter(id, module_id, key, value)
+VALUES (?, ?, ?, ?);

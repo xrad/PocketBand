@@ -1,0 +1,71 @@
+[versions]
+# Official KMP components
+kotlin = "2.1.21"
+compose-multiplatform = "1.8.1"
+lifecycle-viewmodel-compose = "2.8.4"
+kotlinx-collections-immutable = "0.3.8"
+kotlinx-coroutines = "1.10.2"
+adaptive-navigation = "1.1.1"
+
+# Additional KMP components
+androidx-annotation = "1.9.1"
+reorderable = "2.4.0"
+sqldelight = "2.0.2"
+compose-stable-marker = "1.0.6"
+datastore = "1.1.7"
+
+# Android specific components
+accompanist-permissions = "0.37.3"
+androidx-activity-compose = "1.10.1"
+oboe = "1.9.3"
+android-gradle-plugin = "8.7.3"
+android-compileSdk = "35"
+android-minSdk = "24"
+android-targetSdk = "36"
+android-cmake = "3.30.3"
+android-compileNdk = "28.0.13004108"
+
+java = "17"
+
+# Testing components
+junit = "4.13.2"
+
+[libraries]
+# KMP core libraries including Multiplatform Jetpack libraries (https://developer.android.com/kotlin/multiplatform)
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
+adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive-navigation" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+# additional 3rd party libraries which are KMP compatible
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
+sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+compose-stable-marker = { module = "com.github.skydoves:compose-stable-marker", version.ref = "compose-stable-marker" }
+
+# libraries specific to the Android target
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
+sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+oboe = { module = "com.google.oboe:oboe", version.ref = "oboe" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
+
+# libraries specific to the Jvm target
+sqldelight-jvm-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+
+# libraries for testing
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+androidLibrary = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
