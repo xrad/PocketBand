@@ -19,6 +19,10 @@ In terms of development, the app uses the following technologies:
 * Clean architecture
 * Real-time processing and interop with native libraries
 
+# Google Play
+
+You can find PocketBand on [Google Play](https://play.google.com/store/apps/details?id=de.nullgrad.pocketband).
+
 # macOS
 
 In trying to explore the capabilities and native interop of Compose Multiplatform, 
