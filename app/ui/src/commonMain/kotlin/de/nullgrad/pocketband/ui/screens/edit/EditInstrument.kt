@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.scale
 import androidx.lifecycle.viewmodel.compose.viewModel
 import de.nullgrad.pocketband.di.LOCATOR
 import de.nullgrad.pocketband.edit.uimodel.ModuleRef
+import de.nullgrad.pocketband.plugins.PlugInRegistry
 import de.nullgrad.pocketband.ui.dialogs.ConfirmDialog
 import de.nullgrad.pocketband.ui.dialogs.ListSelection
 import de.nullgrad.pocketband.ui.theme.Theme
@@ -64,7 +65,7 @@ fun NoteFxList(
     currentModule: ModuleRef,
     onSelectModule: (ModuleRef) -> Unit,
     editInstrumentViewModel: EditInstrumentViewModel = viewModel(),
-    pluginRegistry: de.nullgrad.pocketband.plugins.PlugInRegistry = remember { LOCATOR.get<de.nullgrad.pocketband.plugins.PlugInRegistry>() }
+    pluginRegistry: PlugInRegistry = remember { LOCATOR.get<PlugInRegistry>() }
 ) {
     var showDeleteDialog by remember { mutableLongStateOf(0) }
     var showAddDialog by remember { mutableStateOf(false) }
@@ -143,7 +144,7 @@ fun InstrumentList(
     currentModule: ModuleRef,
     onSelectModule: (ModuleRef) -> Unit,
     editInstrumentViewModel: EditInstrumentViewModel = viewModel(),
-    pluginRegistry: de.nullgrad.pocketband.plugins.PlugInRegistry = remember { LOCATOR.get<de.nullgrad.pocketband.plugins.PlugInRegistry>() }
+    pluginRegistry: PlugInRegistry = remember { LOCATOR.get<PlugInRegistry>() }
 ) {
     var showReplaceDialog by remember { mutableLongStateOf(0) }
     val editInstrumentState by editInstrumentViewModel.state.collectAsState()
@@ -196,7 +197,7 @@ fun AudioFxList(
     currentModule: ModuleRef,
     onSelectModule: (ModuleRef) -> Unit,
     editInstrumentViewModel: EditInstrumentViewModel = viewModel(),
-    pluginRegistry: de.nullgrad.pocketband.plugins.PlugInRegistry = remember { LOCATOR.get<de.nullgrad.pocketband.plugins.PlugInRegistry>() }
+    pluginRegistry: PlugInRegistry = remember { LOCATOR.get<PlugInRegistry>() }
 ) {
     var showDeleteDialog by remember { mutableLongStateOf(0) }
     var showAddDialog by remember { mutableStateOf(false) }
@@ -275,7 +276,7 @@ fun ModulatorList(
     currentModule: ModuleRef,
     onSelectModule: (ModuleRef) -> Unit,
     editInstrumentViewModel: EditInstrumentViewModel = viewModel(),
-    pluginRegistry: de.nullgrad.pocketband.plugins.PlugInRegistry = remember { LOCATOR.get<de.nullgrad.pocketband.plugins.PlugInRegistry>() }
+    pluginRegistry: PlugInRegistry = remember { LOCATOR.get<PlugInRegistry>() }
 ) {
     var showDeleteDialog by remember { mutableLongStateOf(0) }
     var showAddDialog by remember { mutableStateOf(false) }
