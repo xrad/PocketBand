@@ -58,3 +58,4 @@ PocketBand uses the following third party libraries. The according licenses can 
 * [SQLDelight](https://github.com/sqldelight/sqldelight) (Apache License 2.0)
 * [Compose Stable Marker](https://github.com/skydoves/compose-stable-marker) (Apache License 2.0)
 * [Reorderable](https://github.com/Calvin-LL/Reorderable) (Apache License 2.0)
+* [readerwriterqueue](https://github.com/cameron314/readerwriterqueue) (simplified BSD)
