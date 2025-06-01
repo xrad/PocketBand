@@ -53,7 +53,7 @@ jobs:
       run: chmod +x gradlew
       
     - name: Build with Gradle
-      run: ./gradlew assembleRelease
+      run: ./gradlew app:androidApp:assembleRelease
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -63,6 +63,7 @@ jobs:
           app/androidApp/build/outputs/apk/release/*.apk
 
   build_desktop:
+    if: false # disable for now
     strategy:
       matrix:
         config: [

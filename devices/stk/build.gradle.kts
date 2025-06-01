@@ -1,3 +1,4 @@
+import com.android.build.gradle.tasks.ExternalNativeBuildTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -8,6 +9,9 @@ plugins {
 
 apply(from = "src/commonMain/stkgen/stkgen.gradle.kts")
 tasks.withType<KotlinCompile>().configureEach {
+    dependsOn("stk")
+}
+tasks.withType<ExternalNativeBuildTask>().configureEach {
     dependsOn("stk")
 }
 

@@ -45,8 +45,19 @@ internal fun Project.configureJvmJni(
 
     val cmakeBuildDir = file("build/jni")
 
-    val generatedStkCpp = findProperty("generatedStkCpp") as String
-    val generatedStkCppPath = project.rootDir.resolve(generatedStkCpp)
+    val generatedStkCppPath = if (project.name == "stk") {
+        val generatedStkCpp = project.findProperty("generatedStkCpp")
+        if (generatedStkCpp is String) {
+            project.rootDir.resolve(generatedStkCpp).absolutePath
+        }
+        else {
+            logger.error("required property generatedStkCpp not defined in gradle.properties")
+            null
+        }
+    }
+    else {
+        null
+    }
 
     tasks.register<Exec>("configureCMake") {
         group = "build"
@@ -58,8 +69,6 @@ internal fun Project.configureJvmJni(
         inputs.dir(sourceDir)
         outputs.dir(cmakeBuildDir)
 
-        val is_stk = project.name == "stk"
-
         doFirst {
             cmakeBuildDir.mkdirs()
 
@@ -70,8 +79,8 @@ internal fun Project.configureJvmJni(
 
             val cmakeArguments = mutableListOf(cmake, sourceDir.absolutePath, "-DCMAKE_CXX_FLAGS=$cmakeCxxFlags")
 
-            if (is_stk) {
-                cmakeArguments.add("-DGENERATED_STK_HEADER_DIR=$generatedStkCppPath")
+            generatedStkCppPath?.let {
+                cmakeArguments.add("-DGENERATED_STK_HEADER_DIR=$it")
             }
 
             workingDir = cmakeBuildDir
