@@ -64,12 +64,6 @@ android {
     }
 
     signingConfigs {
-        create("pocketband") {
-            keyAlias = "pocketband"
-            keyPassword = "pocketband"
-            storeFile = file("pocketband.keystore")
-            storePassword = "pocketband"
-        }
         create("release") {
             (keystoreProperties["keyPath"] as String?)?.let {
                 storeFile = file(it)
@@ -113,7 +107,6 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isDebuggable = true
-            signingConfig = signingConfigs.getByName("pocketband")
         }
     }
 
