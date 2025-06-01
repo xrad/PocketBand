@@ -6,8 +6,10 @@ project.tasks.register("stk") {
     val inputFile = File(project.projectDir, "src/commonMain/stkgen/def.txt")
 
     // Define the output files (header and Kotlin files)
-    val cppHeaderFile = File(project.projectDir, "build/generated/stkgen/cpp/stkgen.h")
-    val kotlinFile = File(project.projectDir, "build/generated/stkgen/kotlin/StkGen.kt")
+    val generatedStkCpp = project.findProperty("generatedStkCpp") as String
+    val generatedStkKotlin = project.findProperty("generatedStkKotlin") as String
+    val cppHeaderFile = File(project.rootDir, "${generatedStkCpp}/stkgen.h")
+    val kotlinFile = File(project.rootDir, "${generatedStkKotlin}/StkGen.kt")
 
     // Set the input and output to trigger the task only when the input file changes
     inputs.file(inputFile)

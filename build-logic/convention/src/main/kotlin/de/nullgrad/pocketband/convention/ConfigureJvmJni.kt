@@ -45,6 +45,9 @@ internal fun Project.configureJvmJni(
 
     val cmakeBuildDir = file("build/jni")
 
+    val generatedStkCpp = findProperty("generatedStkCpp") as String
+    val generatedStkCppPath = project.rootDir.resolve(generatedStkCpp)
+
     tasks.register<Exec>("configureCMake") {
         group = "build"
         description = "Configure the CMake build"
@@ -55,6 +58,8 @@ internal fun Project.configureJvmJni(
         inputs.dir(sourceDir)
         outputs.dir(cmakeBuildDir)
 
+        val is_stk = project.name == "stk"
+
         doFirst {
             cmakeBuildDir.mkdirs()
 
@@ -63,12 +68,14 @@ internal fun Project.configureJvmJni(
             val jniIncludeMd = "$javahome/include/darwin"
             val cmakeCxxFlags = "-I\"$jniInclude\" -I\"$jniIncludeMd\""
 
+            val cmakeArguments = mutableListOf(cmake, sourceDir.absolutePath, "-DCMAKE_CXX_FLAGS=$cmakeCxxFlags")
+
+            if (is_stk) {
+                cmakeArguments.add("-DGENERATED_STK_HEADER_DIR=$generatedStkCppPath")
+            }
+
             workingDir = cmakeBuildDir
-            commandLine(
-                cmake,
-                sourceDir.absolutePath,
-                "-DCMAKE_CXX_FLAGS=$cmakeCxxFlags"
-            )
+            commandLine(cmakeArguments)
         }
     }
 

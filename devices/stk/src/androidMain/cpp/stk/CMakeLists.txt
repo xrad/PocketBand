@@ -19,7 +19,11 @@ add_library(${PROJECT_NAME} SHARED
         ${lib_srcs}
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE . include ../../../../build/generated/stkgen/cpp)
+if (NOT DEFINED GENERATED_STK_HEADER_DIR)
+    message(FATAL_ERROR "GENERATED_STK_HEADER_DIR is not defined. Please pass it as a CMake variable (e.g., -DGENERATED_STK_HEADER_DIR=/path/to/generated/headers).")
+endif()
+
+target_include_directories(${PROJECT_NAME} PRIVATE . include ${GENERATED_STK_HEADER_DIR})
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -O3 -ffast-math)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
