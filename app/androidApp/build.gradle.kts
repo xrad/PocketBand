@@ -93,17 +93,6 @@ android {
                 )
             )
         }
-        create("githubRelease") {
-            isShrinkResources = true
-            isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("pocketband")
-            setProguardFiles(
-                listOf(
-                    getDefaultProguardFile("proguard-android.txt"),
-                    "proguard-rules.pro"
-                )
-            )
-        }
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isDebuggable = true
