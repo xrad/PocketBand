@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.io.FileInputStream
 import java.util.*
 
@@ -15,25 +16,28 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
-val versionMajor = 1
-val versionMinor = 0
+val versionMajor: Int = project.findProperty("versionMajor")
+    ?.toString()?.toIntOrNull()
+    ?: throw IllegalArgumentException("Required Gradle property 'versionMajor' is not defined or is not an integer. Please define it in gradle.properties or as a command-line argument (-PversionMajor=<value>).")
 
-val versionNum: String? by project
+val versionMinor: Int = project.findProperty("versionMinor")
+    ?.toString()?.toIntOrNull()
+    ?: throw IllegalArgumentException("Required Gradle property 'versionMinor' is not defined or is not an integer. Please define it in gradle.properties or as a command-line argument (-PversionMinor=<value>).")
+
+val versionNum: Int = project.findProperty("versionNum")
+    ?.toString()?.toIntOrNull()
+    ?: throw IllegalArgumentException("Required Gradle property 'versionNum' is not defined or is not an integer. Please define it in gradle.properties or as a command-line argument (-PversionNum=<value>).")
 
 fun versionCode(): Int {
-    versionNum?.let {
-        val code: Int = (versionMajor * 1000000) + (versionMinor * 1000) + it.toInt()
-        println("versionCode is set to $code")
-        return code
-    } ?: return 1
+    val code: Int = (versionMajor * 1000000) + (versionMinor * 1000) + versionNum
+    println("versionCode is set to $code")
+    return code
 }
 
 fun versionName(): String {
-    versionNum?.let {
-        val name = "${versionMajor}.${versionMinor}.${versionNum}"
-        println("versionName is set to $name")
-        return name
-    } ?: return "1.0"
+    val name = "${versionMajor}.${versionMinor}.${versionNum}"
+    println("versionName is set to $name")
+    return name
 }
 
 android {
@@ -96,6 +100,17 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isDebuggable = true
+        }
+    }
+
+    applicationVariants.all {
+        if (this.buildType.name == "release") {
+            val variant = this
+            variant.outputs.all {
+                (this as? BaseVariantOutputImpl)?.let {
+                    it.outputFileName = "PocketBand-${variant.versionName}(${variant.versionCode})-release.apk"
+                }
+            }
         }
     }
 
