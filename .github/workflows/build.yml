@@ -27,6 +27,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
+      id: setup-jdk-step
+
+    - name: Set GRADLE_JAVA_HOME Environment Variable
+      run: echo "GRADLE_JAVA_HOME=${{ steps.setup-jdk-step.outputs.java-home }}" >> $GITHUB_ENV
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
@@ -53,7 +57,7 @@ jobs:
       run: chmod +x gradlew
       
     - name: Build with Gradle
-      run: ./gradlew app:androidApp:assembleRelease
+      run: ./gradlew -Dorg.gradle.java.home="$GRADLE_JAVA_HOME" app:androidApp:assembleRelease
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -81,6 +85,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
+        id: setup-jdk-step
+
+      - name: Set GRADLE_JAVA_HOME Environment Variable
+        run: echo "GRADLE_JAVA_HOME=${{ steps.setup-jdk-step.outputs.java-home }}" >> $GITHUB_ENV
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -89,7 +97,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :app:desktop:${{ matrix.config.task }}
+        run: ./gradlew -Dorg.gradle.java.home="$GRADLE_JAVA_HOME" :app:desktop:${{ matrix.config.task }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

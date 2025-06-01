@@ -47,17 +47,10 @@ internal fun Project.configureJvmJni(
 
     val generatedStkCppPath = if (project.name == "stk") {
         val generatedStkCpp = project.findProperty("generatedStkCpp")
-        if (generatedStkCpp is String) {
-            project.rootDir.resolve(generatedStkCpp).absolutePath
-        }
-        else {
-            logger.error("required property generatedStkCpp not defined in gradle.properties")
-            null
-        }
-    }
-    else {
-        null
-    }
+            ?.toString()
+            ?: throw IllegalArgumentException("Required Gradle property 'generatedStkCpp' is not defined.")
+        project.rootDir.resolve(generatedStkCpp).absolutePath
+    } else null
 
     tasks.register<Exec>("configureCMake") {
         group = "build"
