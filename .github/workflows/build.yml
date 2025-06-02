@@ -44,11 +44,10 @@ jobs:
           yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses
           ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager "ndk;$NDK_VERSION" "cmake;$CMAKE_VERSION"
 
-      - name: Retrieve the keystore and decode it to a file
+      - name: Prepare release keystore
         env:
           ANDROID_RELEASE_KEYSTORE_FILE: ${{ secrets.ANDROID_RELEASE_KEYSTORE_FILE }}
         run: |
-          mkdir keys
           echo $ANDROID_RELEASE_KEYSTORE_FILE | base64 --decode > app/androidApp/release.keystore
 
       - name: Write keystore.properties
@@ -57,7 +56,7 @@ jobs:
           ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
         run: |
-          echo keyPath=../../keys/release.keystore >> keystore.properties
+          echo keyPath=release.keystore > keystore.properties
           echo storePassword=$ANDROID_RELEASE_KEYSTORE_PASSWORD >> keystore.properties
           echo keyAlias=$ANDROID_RELEASE_KEY_ALIAS >> keystore.properties
           echo keyPassword=$ANDROID_RELEASE_KEY_PASSWORD >> keystore.properties
