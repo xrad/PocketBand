@@ -53,11 +53,12 @@ jobs:
         run: chmod +x gradlew
 
       - name: Show environment variables
+        if: false # disable for now
         run: env
 
       - name: Build with Gradle
         # crazy hack to find JAVA_HOME - see https://github.com/orgs/community/discussions/160592
-        run: ./gradlew -Dorg.gradle.java.home="${JAVA_HOME_21_X64:-$JAVA_HOME_21_amd64}" app:androidApp:assembleRelease
+        run: ./gradlew --console=plain app:androidApp:assembleRelease
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -94,7 +95,7 @@ jobs:
 
       - name: Build with Gradle
         # crazy hack to find JAVA_HOME - see https://github.com/orgs/community/discussions/160592
-        run: ./gradlew -Dorg.gradle.java.home="${JAVA_HOME_21_X64:-$JAVA_HOME_21_amd64}" :app:desktop:${{ matrix.config.task }}
+        run: ./gradlew --console=plain :app:desktop:${{ matrix.config.task }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

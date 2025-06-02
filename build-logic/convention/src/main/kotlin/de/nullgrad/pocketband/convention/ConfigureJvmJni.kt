@@ -11,7 +11,9 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import java.nio.file.Paths
 
 private fun Project.getJavaHome() : String {
-    return project.properties["org.gradle.java.home"] as String
+    return project.properties["org.gradle.java.home"]?.toString()
+        ?: System.getProperty("java.home")
+        ?: throw GradleException("Java home not found")
 }
 
 private fun getNumCpus() : Int {
@@ -46,9 +48,7 @@ internal fun Project.configureJvmJni(
     val cmakeBuildDir = file("build/jni")
 
     val generatedStkCppPath = if (project.name == "stk") {
-        val generatedStkCpp = project.findProperty("generatedStkCpp")
-            ?.toString()
-            ?: throw IllegalArgumentException("Required Gradle property 'generatedStkCpp' is not defined.")
+        val generatedStkCpp = findProperty("generatedStkCpp") as String
         project.rootDir.resolve(generatedStkCpp).absolutePath
     } else null
 
