@@ -31,6 +31,19 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      - name: Read NDK and CMake versions from TOML
+        id: versions
+        run: |
+          NDK_VERSION=$(grep '^android-compileNdk' gradle/libs.versions.toml | cut -d'"' -f2)
+          CMAKE_VERSION=$(grep '^android-cmake' gradle/libs.versions.toml | cut -d'"' -f2)
+          echo "NDK_VERSION=$NDK_VERSION" >> $GITHUB_ENV
+          echo "CMAKE_VERSION=$CMAKE_VERSION" >> $GITHUB_ENV
+
+      - name: Install Android SDK components
+        run: |
+          yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses
+          ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager "ndk;$NDK_VERSION" "cmake;$CMAKE_VERSION"
+
       - name: Retrieve the keystore and decode it to a file
         env:
           ANDROID_RELEASE_KEYSTORE_FILE: ${{ secrets.ANDROID_RELEASE_KEYSTORE_FILE }}
