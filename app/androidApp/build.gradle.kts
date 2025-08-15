@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.*
 
@@ -40,6 +41,13 @@ fun versionName(): String {
     return name
 }
 
+kotlin {
+    compilerOptions {
+        val jvmVersionString = libs.versions.java.get()
+        val jvmVersion = JvmTarget.fromTarget(jvmVersionString)
+        jvmTarget.set(jvmVersion)
+    }
+}
 android {
     val ns = rootProject.ext.get("namespace")
     require(ns is String)
@@ -52,12 +60,6 @@ android {
     // in the AGP will be active. If that is not installed, library symbols will
     // not be stripped ("Unable to strip the following libraries...")
     ndkVersion = libs.versions.android.compileNdk.get()
-
-    val javaVersion = libs.versions.java.get()
-
-    kotlinOptions {
-        jvmTarget = javaVersion
-    }
 
     defaultConfig {
         applicationId = ns
@@ -121,6 +123,7 @@ android {
     }
 
     compileOptions {
+        val javaVersion = libs.versions.java.get()
         sourceCompatibility = JavaVersion.toVersion(javaVersion)
         targetCompatibility = JavaVersion.toVersion(javaVersion)
     }
