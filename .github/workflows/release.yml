@@ -1,0 +1,22 @@
+on:
+  release:
+    types: [published]
+
+jobs:
+  attach-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact from CI
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: build.yml
+          name: android
+          path: ./dist
+          branch: main
+
+      - name: Attach to current release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
