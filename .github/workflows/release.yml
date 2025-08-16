@@ -5,6 +5,8 @@ on:
 jobs:
   attach-artifact:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download artifact from CI
         uses: dawidd6/action-download-artifact@v3
