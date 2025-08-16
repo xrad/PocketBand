@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
-
 plugins {
     id("de.nullgrad.pocketband.kotlinMultiplatform")
     id("de.nullgrad.pocketband.composeMultiplatform")
@@ -22,8 +20,5 @@ compose {
 composeCompiler {
     reportsDestination = layout.buildDirectory.dir("compose_compiler")
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
-    featureFlags = setOf(
-        ComposeFeatureFlag.StrongSkipping
-    )
 }
 
